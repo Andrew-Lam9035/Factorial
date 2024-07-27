@@ -1,0 +1,30 @@
+section .text
+        global _start
+
+_start:
+
+        mov ecx, [num]   ;Set ecx to the value of num to be a counter
+        mov eax, [num]   ;Set eax to the value of num to multiply
+        jmp factorial
+
+factorial:
+        dec ecx                ;First decrease eax so it is the next number down
+        mov [count], ecx ;Put the value of ecx into a variable
+        jz exit                    ;Check if it is zero. If is it, then jump to exit.
+        mov eax, [num]   ;Put the value of num into eax
+        mov dl, [count]    ;Put the value of eax into dl
+        mul dl                    ;Then mulitply them together
+        mov [num], eax   ;Save the value of eax into num to be used again
+        jmp factorial        ;Repeat the cycle until ecx is 0 and the program jumps to exit.
+
+exit:
+        mov [result], eax ;Put the value into result and exit the program.
+        mov eax, 1
+        int 0x80
+
+segment .bss
+       count resb 1          ;count is the number that is used to multiply num in the factorial
+       result resb 1
+        
+section .data
+       num dq 5 ;num is the set number to take the factorial of which can be any number
